@@ -50,6 +50,7 @@ def inference_main(
     z: Union(Tuple[zarr.ZipStore, zarr.ZipStore], None)
         instance and class segmentation results as zarr stores, kept open for further processing. None if inference was skipped.
     """
+    print(f'os.sep: {os.sep}')
     fn = params["p"].split(os.sep)[-1].split(params["ext"])[0]
     output_path = params["root"] + params["output"]
     params["output_dir"] = os.path.join(output_path, fn)

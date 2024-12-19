@@ -20,7 +20,15 @@ docker build "$SCRIPT_DIR" \
 
 echo "=+= Doing a forward pass"
 
+echo "=+= creating docker volume puma-output"
+
 docker volume create puma-output
+
+echo "=+= Running the container"
+
+echo "script dir: $SCRIPT_DIR"
+
+echo "\n" 
 
 docker run \
     --rm \
@@ -32,6 +40,10 @@ docker run \
     -v $SCRIPT_DIR/test/:/input/images/melanoma-wsi/ \
     -v puma-output:/output/ \
     $DOCKER_TAG
+
+echo "=+= Done with the forward pass"
+
+echo "=+= setting permissions on output"
 
 # Ensure permissions are set correctly on the output
 # This allows the host user (e.g. you) to access and handle these files
@@ -53,6 +65,8 @@ docker run --rm \
     -v puma-output:/output/ \
     python:3.7-slim sh -c "ls /output/"
 
+echo "=+= checking for nuclei segmentation JSON"
+
 # Check for nuclei segmentation JSON
 if docker run --rm -v puma-output:/output/ python:3.7-slim sh -c "[ -f $EXPECTED_FILE_NUCLEI ]"; then
     echo "=+= Expected output for nuclei is correct."
@@ -72,6 +86,8 @@ else
 fi
 
 # Check for the dynamically named tissue .tif file
+echo "=+= checking for tissue segmentation .tif"
+
 if docker run --rm -v puma-output:/output/ python:3.7-slim sh -c "[ -f $EXPECTED_FILE_TISSUE ]"; then
     echo "=+= Expected output for tissue is correct."
 
@@ -103,3 +119,5 @@ echo "=+= Wrote results to ${OUTPUT_DIR}"
 echo "=+= Save this image for uploading via save.sh \"${DOCKER_TAG}\""
 
 docker volume rm puma-output
+
+echo "=+= Done"

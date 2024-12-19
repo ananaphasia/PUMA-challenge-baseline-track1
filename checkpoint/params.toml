@@ -1,6 +1,6 @@
 dataset = "puma"
-data_path = "/home/deek/panoptic_training/hover_next_train/dataset"
-save_path = "/home/deek/panoptic_training/hover_next_train/output"
+data_path = "/hpc/dla_patho/premium/mark/pathology_classification_github_mark/hovernext/data/5_fold_cross_val_3_classes/fold_1"
+save_path = "/hpc/dla_patho/premium/mark/pathology_classification_github_mark/hovernext/data/5_fold_cross_val_3_classes/fold_1/output"
 encoder = "convnextv2_base.fcmae_ft_in22k_in1k"
 out_channels_cls = 4
 inst_channels = 5
@@ -28,12 +28,12 @@ match_euc_dist = 12
 eval_criteria = "f1"
 max_hole_size = 128
 checkpoint_path = ""
-experiment = "PUMA_300_ROI_color0.8_base_2"
+experiment = "5_fold_cross_val_3_class_fold_1_2"
 seed = 42
 fold = 2
 test_as_val = true
 optim_metric = "f1"
-num_workers = 2
+num_workers = 4
 use_amp = true
 color_scale = 0.4
 

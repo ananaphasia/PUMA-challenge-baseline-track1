@@ -21,6 +21,9 @@ RUN mkdir -p /opt/app /input /output  \
     && chown -R user:user /opt/app /input /output \
     && chmod -R 777 /output
 
+# remove all files in /output if present, for testing purposes only
+RUN rm -rf /output/*
+
 USER user
 
 WORKDIR /opt/app
@@ -55,3 +58,4 @@ ENTRYPOINT ["./inference.sh"]
 # default arguments, can be overridden
 CMD ["--input", "/input/images/melanoma-wsi", "--output", "/output", "--cp", "/checkpoint", "--tta", "4", "--inf_workers", "4", "--pp_tiling", "10", "--pp_workers", "4"]
 
+# CMD ["--input", "\\Program Files\\Git\\input\\images\\melanoma-wsi\\", "--output", "/output", "--cp", "/checkpoint", "--tta", "4", "--inf_workers", "4", "--pp_tiling", "10", "--pp_workers", "4"]
