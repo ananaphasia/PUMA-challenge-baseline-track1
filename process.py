@@ -33,8 +33,8 @@ def main(params: dict):
     # Run per tile inference and store results
     params, models, augmenter, color_aug_fn = get_inference_setup(params)
 
-    # pick the first (and only) file in folder
-    input_filename = os.path.join(params["input"], os.listdir(params["input"])[0])
+    # pick the first (and only) file in folder. Ensures that if a folder is passed, the first file is used, without files
+    input_filename = os.path.join(params["input"], next(f for f in os.listdir(params["input"]) if os.path.isfile(os.path.join(params["input"], f))))
     # input_filename = os.path.join(params["root"] + params["input"], os.listdir(params["root"] + params["input"])[0])
     print(f"Running inference on {input_filename}")
 
@@ -44,6 +44,9 @@ def main(params: dict):
     if params["ext"] != ".tif":
         print("ERROR: input type is not a .tif file")
     params["input_type"] = "img"
+
+    print(f'params: {params}')
+
     print("Processing ", params["p"])
     if params["cache"] is not None:
         print("Caching input at:")

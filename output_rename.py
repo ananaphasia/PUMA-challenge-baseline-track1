@@ -1,5 +1,6 @@
 import os
 import struct
+import subprocess
 
 import numpy as np
 from PIL import Image
@@ -52,6 +53,15 @@ def recover_filename(pred_folder, output_folder, rename_dict):
             img_name = rename_mapping[file]  # Get the corresponding old name (img_name)
             new_file_path = os.path.join(output_folder, img_name)
 
+            # delete image if it already exists
+            if os.path.exists(new_file_path):
+                # give permissions to delete the file
+                subprocess.run(['chmod', '777', new_file_path])
+                # print user ID 
+                subprocess.run(['id'])
+                # print permissions of the file
+                subprocess.run(['ls', '-l', new_file_path])
+                os.remove(new_file_path)
 
             # Write the image with the correct resolution
             with tifffile.TiffWriter(new_file_path) as tif:

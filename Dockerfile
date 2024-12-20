@@ -24,6 +24,9 @@ RUN mkdir -p /opt/app /input /output  \
 # remove all files in /output if present, for testing purposes only
 RUN rm -rf /output/*
 
+# set permissions for /output directly
+RUN chmod -R 777 /output
+
 USER user
 
 WORKDIR /opt/app
